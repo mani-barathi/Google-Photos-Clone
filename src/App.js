@@ -1,11 +1,21 @@
-
-import './App.css';
+import './css/App.css';
+import Nav from "./components/Nav.js";
 
 function App() {
-
+  const user = "mani"
   return (
     <div className="app">
-      <h1 >Hello React 💙</h1>
+      <Nav />
+
+      {user ? (
+        <>
+          <div></div>
+        </>
+      ) : (
+          <div></div>
+        )
+      }
+
     </div>
   );
 }
