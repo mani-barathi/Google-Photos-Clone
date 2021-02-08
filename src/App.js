@@ -1,18 +1,20 @@
+import { useState } from "react"
 import './css/App.css';
 import Nav from "./components/Nav.js";
+import Login from "./components/Login.js";
 
 function App() {
-  const user = "mani"
+  const [user, setUser] = useState(null)
+
   return (
     <div className="app">
-      <Nav />
 
       {user ? (
         <>
-          <div></div>
+          <Nav user={user} setUser={setUser} />
         </>
       ) : (
-          <div></div>
+          <Login setUser={setUser} />
         )
       }
 

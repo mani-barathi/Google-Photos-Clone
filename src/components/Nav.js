@@ -1,14 +1,18 @@
 import React, { } from 'react'
 import "../css/Nav.css"
 
-import { IconButton, Avatar, Button } from "@material-ui/core"
+import { IconButton, Avatar, Button, Tooltip } from "@material-ui/core"
 import SearchIcon from '@material-ui/icons/Search'
 import PublishIcon from '@material-ui/icons/Publish'
 
-function Nav() {
+import { auth } from "../firebase"
+
+function Nav({ user, setUser }) {
 
     const logout = () => {
-
+        auth.signOut()
+            .then(() => setUser(null))
+            .catch(err => console.log(err.message))
     }
 
     return (
@@ -38,13 +42,14 @@ function Nav() {
                     Upload
                 </Button>
 
-                <IconButton onClick={logout}>
-                    <Avatar className="nav__rightAvatar" src="https://avatars.githubusercontent.com/u/49336839?s=460&u=fbbc21b3ee2066b82cf7ddf1205524757ac5f3f4&v=4" />
-                </IconButton>
+                <Tooltip title="Logout" arrow >
+                    <IconButton onClick={logout} >
+                        <Avatar className="nav__rightAvatar" src={user.photoURL} />
+                    </IconButton>
+                </Tooltip>
             </div>
 
         </div >
-
     )
 }
 
