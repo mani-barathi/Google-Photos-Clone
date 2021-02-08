@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from "react-redux"
 import { Button, CircularProgress } from "@material-ui/core"
+
+import { setUser } from "../actions"
 import { auth, provider } from "../firebase"
 
-function Login({ setUser }) {
+function Login() {
+    const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            if (user)
-                setUser({
+            if (user) {
+                const loggedUser = {
+                    uid: user.uid,
                     displayName: user.displayName,
                     photoURL: user.photoURL,
-                    uid: user.uid,
                     email: user.email,
-                })
+                }
+                dispatch(setUser(loggedUser))
+            }
             else
                 setIsLoading(false)
         })
         return unsubscribe
-    }, [setUser])
+    }, [dispatch])
 
 
     const login = () => {

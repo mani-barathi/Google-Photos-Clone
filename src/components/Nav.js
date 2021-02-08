@@ -1,17 +1,20 @@
 import React, { } from 'react'
 import "../css/Nav.css"
-
+import { useDispatch, useSelector } from "react-redux"
 import { IconButton, Avatar, Button, Tooltip } from "@material-ui/core"
 import SearchIcon from '@material-ui/icons/Search'
 import PublishIcon from '@material-ui/icons/Publish'
 
+import { setUser } from "../actions"
 import { auth } from "../firebase"
 
-function Nav({ user, setUser }) {
+function Nav() {
+    const dispatch = useDispatch()
+    const user = useSelector(state => state)
 
     const logout = () => {
         auth.signOut()
-            .then(() => setUser(null))
+            .then(() => dispatch(setUser(null)))
             .catch(err => console.log(err.message))
     }
 

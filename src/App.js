@@ -1,20 +1,20 @@
-import { useState } from "react"
+import { useSelector } from "react-redux"
 import './css/App.css';
 import Nav from "./components/Nav.js";
 import Login from "./components/Login.js";
 
 function App() {
-  const [user, setUser] = useState(null)
+  const user = useSelector(state => state)
 
   return (
     <div className="app">
 
       {user ? (
         <>
-          <Nav user={user} setUser={setUser} />
+          <Nav />
         </>
       ) : (
-          <Login setUser={setUser} />
+          <Login />
         )
       }
 
