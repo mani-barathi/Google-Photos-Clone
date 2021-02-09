@@ -9,6 +9,36 @@
     display: grid;
     grid-template-columns: repeat(5,1fr);
     grid-gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid lightgray;
+}
+
+.homeview__photoAlbum{
+    background-color: rgb(235, 235, 235);
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    max-height: 250px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s ease ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.homeview__photoAlbum:hover{
+    filter: brightness(90%);
+}
+.homeview__photoAlbum:active{
+    transform: scale(0.97);
+}
+
+.homeview__photoAlbumName{
+    font-weight: 500;
 }
 
 @media only screen and (max-width: 900px){

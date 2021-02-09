@@ -1,6 +1,6 @@
 export const photos = [
     {
-        name: "photo-1.jpg",
+        name: "photodddddddddddddd-1.jpg",
         imageUrl: "https://images.unsplash.com/photo-1612808193404-063c7b6a010e?ixid=MXwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxN3x8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
     },
     {
