@@ -7,6 +7,9 @@
     padding-right: 0.5rem;
     border-bottom: 1px solid lightgray;
     background-color: white;
+    z-index: 5;
+    position: sticky;
+    top: 0;
 }
 
 .nav__logo{
