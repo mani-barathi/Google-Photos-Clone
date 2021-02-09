@@ -2,12 +2,14 @@
 Developing a Google Photos Clone using ReactJs and Firebase
 
 ### Currenly Working on 👇 
+- [x] ~set up Redux~
 - [x] ~Google Sign~
 - [x] ~Navbar design~
 
 ### Technology Used
 * **React** (FrontEnd)
    * **Material-UI** - For Icons and prebuilt Components (package)
+   * **Redux** - For managing Global States (State management Library)
 * **Firebase** - Baas (Backend as a Service)
     * **Authentication** - Google Authentication
 
