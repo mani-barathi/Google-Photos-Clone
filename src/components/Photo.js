@@ -5,10 +5,11 @@ import { Tooltip } from "@material-ui/core"
 import DeleteIcon from '@material-ui/icons/Delete'
 import GetAppIcon from '@material-ui/icons/GetApp'
 
-function Photo({ data }) {
+function Photo({ id, data }) {
+    console.log(data.photoURL)
     return (
         <div className="photo">
-            <img src={data.imageUrl} alt="" className="photo__img" draggable="false" />
+            <img src={data.photoURL} alt="" className="photo__img" draggable="false" />
             <div className="photo__options">
                 <Tooltip title="Delete">
                     <DeleteIcon />

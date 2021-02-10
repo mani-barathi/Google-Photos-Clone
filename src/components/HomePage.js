@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "../css/HomePage.css"
 import Album from "./Album"
 import Photo from "./Photo"
@@ -6,12 +6,31 @@ import CreateAlbumModal from "./CreateAlbumModal"
 
 import { Typography } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add'
+import { useSelector } from "react-redux"
 
-import { photos } from "../utils"
+import { db } from "../firebase"
 
 function HomePage() {
     const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false)
     const albums = [{ name: "Family" }, { name: "School" }]
+    const [photos, setPhotos] = useState([])
+    const { uid } = useSelector(state => state.user)
+
+    useEffect(() => {
+        const unsubscribe = db.collection('photos')
+            .where('uid', '==', uid)
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(snapshot => {
+                setPhotos(
+                    snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data()
+                    }))
+                )
+            })
+
+        return unsubscribe
+    }, [uid])
 
     const handleCreateAlbumModal = () => {
         setIsCreateAlbumOpen(true);
@@ -35,7 +54,7 @@ function HomePage() {
 
             {/* Root Directory Photos */}
             <div className="homepage__photos">
-                {photos.map((photo, i) => <Photo key={i} data={photo} />)}
+                {photos.map(({ id, data }) => <Photo key={id} id={id} data={data} />)}
             </div>
 
             {/* Modal */}
