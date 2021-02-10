@@ -13,12 +13,11 @@
 }
 
 .nav__logo{
-    font-size: 1.25rem;
-    font-weight: 500;
-    user-select: none;
+    user-select: none ;
 }
 
 .nav__logoText2{
+    font-size: 1.3rem !important;
     color: rgb(112, 111, 111);
 }
 
@@ -34,7 +33,7 @@
 }
 
 .nav__searchIcon{
-    color: rgb(85, 85, 85) !important;
+    color: rgb(63, 61, 61) !important;
 }
 
 .nav__searchInput{
@@ -51,8 +50,9 @@
 }
 
 .nav__rightUploadBtn{
-    font-weight: 500;
-    text-transform: none imp !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    color: rgb(80, 79, 79) !important;
 }
 
 .nav__rightAvatar{
