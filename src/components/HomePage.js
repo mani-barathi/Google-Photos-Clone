@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import "../css/HomeView.css"
+import "../css/HomePage.css"
 import Album from "./Album"
 import Photo from "./Photo"
 import CreateAlbumModal from "./CreateAlbumModal"
@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import { photos } from "../utils"
 
-function HomeView() {
+function HomePage() {
     const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false)
     const albums = [{ name: "Family" }, { name: "School" }]
 
@@ -18,12 +18,12 @@ function HomeView() {
     }
 
     return (
-        <div className="homeview">
+        <div className="homepage">
             <Typography variant="h5">Albums</Typography>
-            <div className="homeview__photos">
+            <div className="homepage__photos">
                 {/* Create Album */}
                 <div onClick={handleCreateAlbumModal} title="Create New Album"
-                    className="homeview__photoAlbum" style={{ backgroundColor: "#D0D0D0" }}>
+                    className="homepage__photoAlbum" style={{ backgroundColor: "#D0D0D0" }}>
                     <AddIcon fontSize="large" />
                 </div>
 
@@ -34,7 +34,7 @@ function HomeView() {
             </div>
 
             {/* Root Directory Photos */}
-            <div className="homeview__photos">
+            <div className="homepage__photos">
                 {photos.map((photo, i) => <Photo key={i} data={photo} />)}
             </div>
 
@@ -48,4 +48,4 @@ function HomeView() {
     )
 }
 
-export default HomeView
+export default HomePage

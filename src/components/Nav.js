@@ -9,9 +9,10 @@ import { setUser } from "../actions"
 import { auth } from "../firebase"
 
 function Nav() {
+    const dispatch = useDispatch()
+    const currentAlbum = useSelector(state => state.currentAlbum)
     const fileRef = useRef()
     const [uploadMessage, setUploadMessage] = useState('')
-    const dispatch = useDispatch()
     const user = useSelector(state => state)
 
     const logout = () => {

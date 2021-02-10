@@ -1,10 +1,18 @@
 import React from 'react'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
 import { Typography } from "@material-ui/core"
+import { useDispatch } from "react-redux"
+import { setCurrentAlbum } from "../actions"
 
 function Album({ data }) {
+    const dispatch = useDispatch()
+
+    const handleAlbumClick = () => {
+        dispatch(setCurrentAlbum(data.name))
+    }
+
     return (
-        <div className="homeview__photoAlbum" >
+        <div className="homepage__photoAlbum" onClick={handleAlbumClick}>
             <PhotoLibraryIcon fontSize="large" />
             <Typography variant="h6">
                 {data.name}

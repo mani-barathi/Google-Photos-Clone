@@ -5,3 +5,10 @@ export const setUser = (user) => {
         payload: user
     }
 }
+
+export const setCurrentAlbum = (albumName) => {
+    return {
+        type: 'SET_CURRENT_ALBUM',
+        payload: albumName
+    }
+}
