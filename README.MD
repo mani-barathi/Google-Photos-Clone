@@ -2,9 +2,9 @@
 Developing a Google Photos Clone using ReactJs and Firebase
 
 ### Currenly Working on 👇 
+- [x] ~Create Album Modal~
 - [x] ~Album preview design~
 - [x] ~set up Redux~
-- [x] ~Google Sign~
 
 ### Technology Used
 * **React** (FrontEnd)
