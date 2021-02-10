@@ -28,7 +28,7 @@ function HomePage() {
                 </div>
 
                 {  /* Album (Individual) */
-                    albums.map((album, i) => <Album key={i} data={album} />)
+                    albums.map((album, i) => <Album key={i} id={i} data={album} />)
                 }
 
             </div>

@@ -1,19 +1,24 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import "../css/Nav.css"
 import { useDispatch, useSelector } from "react-redux"
 import { IconButton, Avatar, Button, Tooltip, Typography, Snackbar } from "@material-ui/core"
 import SearchIcon from '@material-ui/icons/Search'
 import PublishIcon from '@material-ui/icons/Publish'
+import firebase from "firebase"
 
 import { setUser } from "../actions"
-import { auth } from "../firebase"
+import { auth, db, storage } from "../firebase"
 
 function Nav() {
     const dispatch = useDispatch()
     const currentAlbum = useSelector(state => state.currentAlbum)
     const fileRef = useRef()
-    const [uploadMessage, setUploadMessage] = useState('')
-    const user = useSelector(state => state)
+    const [uploadMessage, setUploadMessage] = useState(null)
+    const user = useSelector(state => state.user)
+
+    useEffect(() => {
+        console.log(currentAlbum)
+    }, [currentAlbum])
 
     const logout = () => {
         auth.signOut()
@@ -29,8 +34,35 @@ function Nav() {
         const photos = fileRef.current.files
         if (photos.length === 0) return
 
-        console.log(photos)
         setUploadMessage(`Uploading ${photos.length} Photo`)
+
+        for (let photo of photos) {
+            console.log(photo)
+            const data = {
+                name: photo.name,
+                uid: user.uid,
+                albumId: currentAlbum.albumId,
+                albumName: currentAlbum.albumName,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            }
+
+            const uploadTask = storage.ref(`photos/${user.uid}_${photo.name}`).put(photo)
+            uploadTask.on('state_change',
+                null,
+                (error) => {                // error function
+                    alert(error.message)
+                    console.log(error.message)
+                },
+                () => {
+                    storage.ref('photos').child(`${user.uid}_${photo.name}`)
+                        .getDownloadURL().then((url) => {
+                            data.photoURL = url             // adding the recived Url
+                            db.collection('photos').add(data)
+                            setUploadMessage("Photo Uploded Succesfully!")
+                        })
+                }
+            )
+        }
     }
 
     return (
@@ -63,7 +95,9 @@ function Nav() {
 
                 <Tooltip title="Logout" arrow >
                     <IconButton onClick={logout} >
-                        <Avatar className="nav__rightAvatar" src={user.photoURL} />
+                        <Avatar className="nav__rightAvatar" src={user.photoURL} >
+                            {user.displayName[0]}
+                        </Avatar>
                     </IconButton>
                 </Tooltip>
             </div>
@@ -71,8 +105,10 @@ function Nav() {
             <input type="file" onChange={handleUploadImage} ref={fileRef}
                 multiple accept="image/*" style={{ display: "none" }} />
 
-            {
+            { uploadMessage &&
                 <Snackbar
+                    onClose={() => setUploadMessage(null)}
+                    autoHideDuration={3000}
                     open={Boolean(uploadMessage)}
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                     message={uploadMessage} />

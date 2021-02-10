@@ -1,5 +1,5 @@
 
-const reducer = (state = 'ROOT', action) => {
+const reducer = (state = { albumId: "ROOT", albumName: "ROOT" }, action) => {
     switch (action.type) {
         case "SET_CURRENT_ALBUM":
             return action.payload

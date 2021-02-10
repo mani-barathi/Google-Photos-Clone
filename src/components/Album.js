@@ -4,11 +4,11 @@ import { Typography } from "@material-ui/core"
 import { useDispatch } from "react-redux"
 import { setCurrentAlbum } from "../actions"
 
-function Album({ data }) {
+function Album({ id, data }) {
     const dispatch = useDispatch()
 
     const handleAlbumClick = () => {
-        dispatch(setCurrentAlbum(data.name))
+        dispatch(setCurrentAlbum({ albumId: id, albumName: data.name }))
     }
 
     return (
