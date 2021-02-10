@@ -37,10 +37,6 @@
     transform: scale(0.97);
 }
 
-.homeview__photoAlbumName{
-    font-weight: 500;
-}
-
 @media only screen and (max-width: 900px){
     .homeview__photos{
         grid-template-columns: repeat(4,1fr);

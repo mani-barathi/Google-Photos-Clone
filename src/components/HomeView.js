@@ -9,7 +9,7 @@ import AddIcon from '@material-ui/icons/Add'
 import { photos } from "../utils"
 
 function HomeView() {
-    const data = { name: "family" }
+    const albums = [{ name: "Family" }, { name: "School" }]
 
     return (
         <div className="homeview">
@@ -22,8 +22,9 @@ function HomeView() {
                 </div>
 
                 {/* Album (Individual) */}
-                <Album data={data} />
-                <Album data={data} />
+                {
+                    albums.map((album, i) => <Album key={i} data={album} />)
+                }
 
             </div>
 
