@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { IconButton, Avatar, Button, Tooltip, Typography, Snackbar } from "@material-ui/core"
 import SearchIcon from '@material-ui/icons/Search'
 import PublishIcon from '@material-ui/icons/Publish'
+
 import firebase from "firebase"
+import { v4 as uuidv4 } from 'uuid';
 
 import { setUser } from "../actions"
 import { auth, db, storage } from "../firebase"
@@ -37,7 +39,9 @@ function Nav() {
         setUploadMessage(`Uploading ${photos.length} Photo`)
 
         for (let photo of photos) {
+            const photoId = uuidv4()
             console.log(photo)
+            console.log(photoId)
             const data = {
                 name: photo.name,
                 uid: user.uid,
@@ -46,7 +50,7 @@ function Nav() {
                 createdAt: firebase.firestore.FieldValue.serverTimestamp()
             }
 
-            const uploadTask = storage.ref(`photos/${user.uid}_${photo.name}`).put(photo)
+            const uploadTask = storage.ref(`photos/${photoId}_${photo.name}`).put(photo)
             uploadTask.on('state_change',
                 null,
                 (error) => {                // error function
@@ -54,10 +58,10 @@ function Nav() {
                     console.log(error.message)
                 },
                 () => {
-                    storage.ref('photos').child(`${user.uid}_${photo.name}`)
+                    storage.ref('photos').child(`${photoId}_${photo.name}`)
                         .getDownloadURL().then((url) => {
                             data.photoURL = url             // adding the recived Url
-                            db.collection('photos').add(data)
+                            db.collection('photos').doc(photoId).set(data)
                             setUploadMessage("Photo Uploded Succesfully!")
                         })
                 }

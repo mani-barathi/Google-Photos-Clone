@@ -12,16 +12,33 @@ import { db } from "../firebase"
 
 function HomePage() {
     const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false)
-    const albums = [{ name: "Family" }, { name: "School" }]
+    const [albums, setAlbums] = useState([])
     const [photos, setPhotos] = useState([])
     const { uid } = useSelector(state => state.user)
 
     useEffect(() => {
         const unsubscribe = db.collection('photos')
             .where('uid', '==', uid)
+            .where('albumId', '==', 'ROOT')
             .orderBy('createdAt', 'desc')
             .onSnapshot(snapshot => {
                 setPhotos(
+                    snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        data: doc.data()
+                    }))
+                )
+            })
+
+        return unsubscribe
+    }, [uid])
+
+    useEffect(() => {
+        const unsubscribe = db.collection('albums')
+            .where('uid', '==', uid)
+            .orderBy('createdAt', 'desc')
+            .onSnapshot(snapshot => {
+                setAlbums(
                     snapshot.docs.map(doc => ({
                         id: doc.id,
                         data: doc.data()
@@ -47,7 +64,7 @@ function HomePage() {
                 </div>
 
                 {  /* Album (Individual) */
-                    albums.map((album, i) => <Album key={i} id={i} data={album} />)
+                    albums.map(({ id, data }) => <Album key={id} id={id} data={data} />)
                 }
 
             </div>
@@ -59,6 +76,7 @@ function HomePage() {
 
             {/* Modal */}
             <CreateAlbumModal
+                uid={uid}
                 isCreateAlbumOpen={isCreateAlbumOpen}
                 setIsCreateAlbumOpen={setIsCreateAlbumOpen}
             />
