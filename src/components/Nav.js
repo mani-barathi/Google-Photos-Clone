@@ -7,12 +7,14 @@ import PublishIcon from '@material-ui/icons/Publish'
 
 import firebase from "firebase"
 import { v4 as uuidv4 } from 'uuid';
+import { useHistory } from "react-router-dom"
 
 import { setUser } from "../actions"
 import { auth, db, storage } from "../firebase"
 
 function Nav() {
     const dispatch = useDispatch()
+    const history = useHistory()
     const currentAlbum = useSelector(state => state.currentAlbum)
     const fileRef = useRef()
     const [uploadMessage, setUploadMessage] = useState(null)
@@ -69,9 +71,11 @@ function Nav() {
         }
     }
 
+    const goToHomePage = () => history.push(`/`)
+
     return (
         <div className="nav">
-            <div className="nav__logo">
+            <div className="nav__logo" onClick={goToHomePage} >
                 <Typography variant="h5" >
                     <span style={{ color: "#4285F4" }}>G</span>
                     <span style={{ color: "#DB4437" }}>o</span>

@@ -6,15 +6,21 @@ import CreateAlbumModal from "./CreateAlbumModal"
 
 import { Typography } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add'
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 
 import { db } from "../firebase"
+import { setCurrentAlbum } from "../actions"
 
 function HomePage() {
+    const dispatch = useDispatch()
+    const { uid } = useSelector(state => state.user)
     const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false)
     const [albums, setAlbums] = useState([])
     const [photos, setPhotos] = useState([])
-    const { uid } = useSelector(state => state.user)
+
+    useEffect(() => {
+        dispatch(setCurrentAlbum({ albumId: 'ROOT', albumName: 'ROOT' }))
+    }, [dispatch])
 
     useEffect(() => {
         const unsubscribe = db.collection('photos')

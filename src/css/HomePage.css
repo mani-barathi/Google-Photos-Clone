@@ -1,11 +1,11 @@
-.homepage{
+.homepage,.albumpage{
     flex: 1;
     width: 100%;
     max-width: 1300px;
     padding: 0.5rem 1rem;
 }
 
-.homepage__photos{
+.homepage__photos,.albumpage__photos{
     display: grid;
     grid-template-columns: repeat(5,1fr);
     grid-gap: 0.5rem;
@@ -38,19 +38,19 @@
 }
 
 @media only screen and (max-width: 900px){
-    .homepage__photos{
+    .homepage__photos,.albumpage__photos{
         grid-template-columns: repeat(4,1fr);
     }
 }
 
 @media only screen and (max-width: 700px){
-    .homepage__photos{
+    .homepage__photos,.albumpage__photos{
         grid-template-columns: repeat(3,1fr);
     }
 }
 
 @media only screen and (max-width: 450px){
-    .homepage__photos{
+    .homepage__photos,.albumpage__photos{
         grid-template-columns: repeat(2,1fr); 
     }
 }
