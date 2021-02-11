@@ -5,6 +5,12 @@
     padding: 0.5rem 1rem;
 }
 
+.albumpage__header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .homepage__photos,.albumpage__photos{
     display: grid;
     grid-template-columns: repeat(5,1fr);
