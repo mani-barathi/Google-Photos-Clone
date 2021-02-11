@@ -2,18 +2,21 @@
 Developing a Google Photos Clone using ReactJs and Firebase
 
 ### Currenly Working on 👇 
-- [ ] Setting up React Router
+- [ ] Deleting Album
+- [x] ~Downloading Photo~
+- [x] Setting up React Router
 - [x] ~Uploading Images to firebase~
 - [x] ~Create Album Modal~
-- [x] ~Album preview design~
-- [x] ~set up Redux~
 
 ### Technology Used
 * **React** (FrontEnd)
    * **Material-UI** - For Icons and prebuilt Components (package)
+   * **react-router-dom** - To manage routing between different pages(Homepage, Albumpage)
    * **Redux** - For managing Global States (State management Library)
 * **Firebase** - Baas (Backend as a Service)
+    * **Firestore** - NoSQL database
     * **Authentication** - Google Authentication
+    * **Storage** - Cloud Storage for uploading and saving Images
 
 
 ### To run this on Local machine
