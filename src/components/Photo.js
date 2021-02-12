@@ -5,12 +5,13 @@ import { Tooltip } from "@material-ui/core"
 import DeleteIcon from '@material-ui/icons/Delete'
 import GetAppIcon from '@material-ui/icons/GetApp'
 
-import { db, storage } from "../firebase"
+import useFireStore from "../hooks/useFirestore"
 
 function Photo({ id, data }) {
+    const { deletePhoto } = useFireStore()
+
     const handleDeletePhoto = () => {
-        storage.ref('photos').child(`${id}_${data.name}`).delete()
-            .then(() => db.collection('photos').doc(id).delete())
+        deletePhoto(id, `${id}_${data.name}`)
     }
 
 

@@ -13,18 +13,14 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 
-import { db, storage } from "../firebase"
+import useFireStore from '../hooks/useFirestore'
 
 function AlbumPage() {
     const history = useHistory()
+    const { getAlbumPhotos, deleteAlbum } = useFireStore()
     const currentAlbum = useSelector(state => state.currentAlbum)
     const [photos, setPhotos] = useState([])
     const [open, setOpen] = React.useState(false)
-
-    const openDeleteModal = () => setOpen(true)
-
-    const closeDeleteModal = () => setOpen(false)
-
 
     useEffect(() => {
         if (currentAlbum.albumId === 'ROOT')
@@ -32,9 +28,7 @@ function AlbumPage() {
     }, [history, currentAlbum.albumId])
 
     useEffect(() => {
-        const unsubscribe = db.collection('photos')
-            .where('albumId', '==', currentAlbum.albumId)
-            .orderBy('createdAt', 'desc')
+        const unsubscribe = getAlbumPhotos()
             .onSnapshot(snapshot => {
                 setPhotos(
                     snapshot.docs.map(doc => ({
@@ -45,19 +39,13 @@ function AlbumPage() {
             })
 
         return unsubscribe
-    }, [currentAlbum.albumId])
+    }, [])
 
+    const openDeleteModal = () => setOpen(true)
+    const closeDeleteModal = () => setOpen(false)
 
-    const deleteAlbum = () => {
-        console.log('inside here!!!!')
-
-        for (let photo of photos) {
-            console.log(`${photo.id}_${photo.data.name}`)
-            storage.ref('photos').child(`${photo.id}_${photo.data.name}`).delete()
-                .then(() => db.collection('photos').doc(photo.id).delete())
-        }
-        db.collection('albums').doc(currentAlbum.albumId).delete()
-
+    const handleDeleteAlbum = () => {
+        deleteAlbum(photos)
         closeDeleteModal()
         history.replace(`/`)
     }
@@ -96,7 +84,7 @@ function AlbumPage() {
                     <Button onClick={closeDeleteModal} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={deleteAlbum} color="primary" autoFocus variant="contained">
+                    <Button onClick={handleDeleteAlbum} color="primary" autoFocus variant="contained">
                         delete
                     </Button>
                 </DialogActions>

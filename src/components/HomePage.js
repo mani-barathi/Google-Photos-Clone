@@ -6,14 +6,14 @@ import CreateAlbumModal from "./CreateAlbumModal"
 
 import { Typography } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add'
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 
-import { db } from "../firebase"
 import { setCurrentAlbum } from "../actions"
+import useFireStore from "../hooks/useFirestore"
 
 function HomePage() {
     const dispatch = useDispatch()
-    const { uid } = useSelector(state => state.user)
+    const { getAlbums, getRootPhotos } = useFireStore()
     const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false)
     const [albums, setAlbums] = useState([])
     const [photos, setPhotos] = useState([])
@@ -22,11 +22,9 @@ function HomePage() {
         dispatch(setCurrentAlbum({ albumId: 'ROOT', albumName: 'ROOT' }))
     }, [dispatch])
 
+    // To get Photos
     useEffect(() => {
-        const unsubscribe = db.collection('photos')
-            .where('uid', '==', uid)
-            .where('albumId', '==', 'ROOT')
-            .orderBy('createdAt', 'desc')
+        const unsubscribe = getRootPhotos()
             .onSnapshot(snapshot => {
                 setPhotos(
                     snapshot.docs.map(doc => ({
@@ -36,13 +34,13 @@ function HomePage() {
                 )
             })
 
-        return unsubscribe
-    }, [uid])
+        return unsubscribe                          // eslint-disable-next-line
+    }, [])
 
+
+    // To get Albums
     useEffect(() => {
-        const unsubscribe = db.collection('albums')
-            .where('uid', '==', uid)
-            .orderBy('createdAt', 'desc')
+        const unsubscribe = getAlbums()
             .onSnapshot(snapshot => {
                 setAlbums(
                     snapshot.docs.map(doc => ({
@@ -52,8 +50,8 @@ function HomePage() {
                 )
             })
 
-        return unsubscribe
-    }, [uid])
+        return unsubscribe                      // eslint-disable-next-line
+    }, [])
 
     const handleCreateAlbumModal = () => {
         setIsCreateAlbumOpen(true);
@@ -82,7 +80,6 @@ function HomePage() {
 
             {/* Modal */}
             <CreateAlbumModal
-                uid={uid}
                 isCreateAlbumOpen={isCreateAlbumOpen}
                 setIsCreateAlbumOpen={setIsCreateAlbumOpen}
             />

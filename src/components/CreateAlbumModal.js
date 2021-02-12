@@ -6,29 +6,22 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import firebase from "firebase"
 
-import { db } from "../firebase"
+import useFirestore from "../hooks/useFirestore"
 
-function CreateAlbumModal({ uid, isCreateAlbumOpen, setIsCreateAlbumOpen }) {
+function CreateAlbumModal({ isCreateAlbumOpen, setIsCreateAlbumOpen }) {
+    const { createAlbum } = useFirestore()
     const inputRef = useRef()
 
     const handleCreateAlbum = (e) => {
         e.preventDefault()
         if (!inputRef.current.value) return
 
-        const data = {
-            name: inputRef.current.value,
-            uid: uid,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-        }
-        db.collection('albums').add(data)
+        createAlbum(inputRef.current.value)
         setIsCreateAlbumOpen(false)
     }
 
-    const handleClose = () => {
-        setIsCreateAlbumOpen(false);
-    }
+    const handleClose = () => setIsCreateAlbumOpen(false)
 
     return (
         <div>

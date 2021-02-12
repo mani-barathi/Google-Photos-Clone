@@ -1,28 +1,23 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState } from 'react'
 import "../css/Nav.css"
 import { useDispatch, useSelector } from "react-redux"
 import { IconButton, Avatar, Button, Tooltip, Typography, Snackbar } from "@material-ui/core"
 import SearchIcon from '@material-ui/icons/Search'
 import PublishIcon from '@material-ui/icons/Publish'
 
-import firebase from "firebase"
-import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from "react-router-dom"
 
 import { setUser } from "../actions"
-import { auth, db, storage } from "../firebase"
+import { auth } from "../firebase"
+import useFirestore from "../hooks/useFirestore"
 
 function Nav() {
     const dispatch = useDispatch()
     const history = useHistory()
-    const currentAlbum = useSelector(state => state.currentAlbum)
+    const { uploadPhoto } = useFirestore()
     const fileRef = useRef()
     const [uploadMessage, setUploadMessage] = useState(null)
     const user = useSelector(state => state.user)
-
-    useEffect(() => {
-        console.log(currentAlbum)
-    }, [currentAlbum])
 
     const logout = () => {
         auth.signOut()
@@ -39,36 +34,8 @@ function Nav() {
         if (photos.length === 0) return
 
         setUploadMessage(`Uploading ${photos.length} Photo`)
+        uploadPhoto(photos, setUploadMessage)
 
-        for (let photo of photos) {
-            const photoId = uuidv4()
-            console.log(photo)
-            console.log(photoId)
-            const data = {
-                name: photo.name,
-                uid: user.uid,
-                albumId: currentAlbum.albumId,
-                albumName: currentAlbum.albumName,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            }
-
-            const uploadTask = storage.ref(`photos/${photoId}_${photo.name}`).put(photo)
-            uploadTask.on('state_change',
-                null,
-                (error) => {                // error function
-                    alert(error.message)
-                    console.log(error.message)
-                },
-                () => {
-                    storage.ref('photos').child(`${photoId}_${photo.name}`)
-                        .getDownloadURL().then((url) => {
-                            data.photoURL = url             // adding the recived Url
-                            db.collection('photos').doc(photoId).set(data)
-                            setUploadMessage("Photo Uploded Succesfully!")
-                        })
-                }
-            )
-        }
     }
 
     const goToHomePage = () => history.push(`/`)
