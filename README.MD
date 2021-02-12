@@ -2,11 +2,13 @@
 Developing a Google Photos Clone using ReactJs and Firebase
 
 ### Currenly Working on 👇 
-- [ ] Deleting Album
+- [x] ~Deleting Album~
 - [x] ~Downloading Photo~
 - [x] Setting up React Router
 - [x] ~Uploading Images to firebase~
-- [x] ~Create Album Modal~
+
+### Preview
+<img src="./public/preview.gif" />
 
 ### Technology Used
 * **React** (FrontEnd)
@@ -24,3 +26,10 @@ Developing a Google Photos Clone using ReactJs and Firebase
 * Create a firebase project and replace all the Project keys in **'src/firebase.js'**
 * Turn on Google Authentication in your firebase authentication console
 * Run app by typing `npm start`in command line
+
+
+### Note
+* You will have to create Indexes in firestore, as HomePage, AlbumPage uses Nested Queries to fetch data from Firestore. While running the application for first time there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)
+* To Download Photo diretly from firebase storage in javacript as a Blob type, you have to change CORS policy in google cloud console, to know more check the below links
+    * [Firebase Docs](https://firebase.google.com/docs/storage/web/download-files)
+    * [StackOverFlow Answers](https://stackoverflow.com/questions/37760695/firebase-storage-and-access-control-allow-origin)
