@@ -1,5 +1,5 @@
 # Google Photos Clone
-Developing a Google Photos Clone using ReactJs and Firebase
+A Google Photos Clone built using ReactJs and Firebase
 
 ### Currenly Working on 👇 
 - [x] ~Moving all database function to custom Hooks~
@@ -7,6 +7,12 @@ Developing a Google Photos Clone using ReactJs and Firebase
 - [x] ~Downloading Photo~
 - [x] ~Setting up React Router~
 - [x] ~Uploading Images to firebase~
+
+### Features
+- Google Login
+- Upload multiple Photos at once
+- Create new Album
+- Delete Photos and Albums
 
 ### Preview
 <img src="./public/preview.gif" />
@@ -31,7 +37,7 @@ Developing a Google Photos Clone using ReactJs and Firebase
 
 ### Note
 * All the functions which does the database transactions are created in a custom hook and imported into components. Check `src\hooks\useFirestore.js`
-* You will have to create Indexes in firestore, as HomePage, AlbumPage uses Nested Queries to fetch data from Firestore. While running the application for first time there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)
-* To Download Photo diretly from firebase storage in javacript as a Blob type, you have to change CORS policy in google cloud console, to know more check the below links
+* You will have to create **Indexes** in firestore, as HomePage, AlbumPage uses **Nested Queries** to fetch data from Firestore. While running the application for first time there will be an error in console stating you to create an Index in Firestore. That Error will provide a link to create an Index in Firestore , you can click on the link and create an Index. (This Error will be solved after that particular Index is created)
+* To Download Photo diretly from firebase storage in javacript as a **Blob** type, you have to change **CORS** policy in **google cloud console**, to know more check the below links
     * [Firebase Docs](https://firebase.google.com/docs/storage/web/download-files)
     * [StackOverFlow Answers](https://stackoverflow.com/questions/37760695/firebase-storage-and-access-control-allow-origin)
