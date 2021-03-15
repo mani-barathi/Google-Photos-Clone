@@ -1,18 +1,14 @@
 # Google Photos Clone
-A Google Photos Clone built using ReactJs and Firebase
+A Google Photos Clone built with ReactJs🚀 and Firebase🔥
 
-### Currenly Working on 👇 
-- [x] ~Moving all database function to custom Hooks~
-- [x] ~Deleting Album~
-- [x] ~Downloading Photo~
-- [x] ~Setting up React Router~
-- [x] ~Uploading Images to firebase~
+**Click [Here](https://photos-clone.web.app/) to View the Website**
 
 ### Features
 - Google Login
 - Upload multiple Photos at once
 - Create new Album
 - Delete Photos and Albums
+- Download Photos
 
 ### Preview
 <img src="./public/preview.gif" />
