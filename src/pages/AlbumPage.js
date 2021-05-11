@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import "../css/HomePage.css"
-import Photo from "./Photo"
+import Photo from "../components/Photo"
 
 import { useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
@@ -39,6 +39,7 @@ function AlbumPage() {
             })
 
         return unsubscribe
+        // eslint-disable-next-line
     }, [])
 
     const openDeleteModal = () => setOpen(true)

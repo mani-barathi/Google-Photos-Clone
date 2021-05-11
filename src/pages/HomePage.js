@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import "../css/HomePage.css"
-import Album from "./Album"
-import Photo from "./Photo"
-import CreateAlbumModal from "./CreateAlbumModal"
+import Album from "../components/Album"
+import Photo from "../components/Photo"
+import CreateAlbumModal from "../components/CreateAlbumModal"
 
 import { Typography } from "@material-ui/core"
 import AddIcon from '@material-ui/icons/Add'
