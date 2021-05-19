@@ -25,7 +25,7 @@ A Google Photos Clone built with ReactJs🚀 and Firebase🔥
 - **Firebase** - Baas (Backend as a Service)
   - **Firestore**
   - **Authentication** (Google Authentication)
-  - **Clourd Storage**
+  - **Cloud Storage**
 
 ### To run this on Local machine
 
