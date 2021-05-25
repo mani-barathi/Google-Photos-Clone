@@ -1,20 +1,18 @@
-import React, { useRef, useState } from "react"
-import "../css/Nav.css"
-import { useDispatch, useSelector } from "react-redux"
 import {
-  IconButton,
   Avatar,
   Button,
+  IconButton,
+  Snackbar,
   Tooltip,
   Typography,
-  Snackbar,
 } from "@material-ui/core"
-import SearchIcon from "@material-ui/icons/Search"
 import PublishIcon from "@material-ui/icons/Publish"
-
+import SearchIcon from "@material-ui/icons/Search"
+import React, { useRef, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { useHistory } from "react-router-dom"
-
 import { setUser } from "../actions"
+import "../css/Nav.css"
 import { auth } from "../firebase"
 import useFirestore from "../hooks/useFirestore"
 
@@ -40,6 +38,14 @@ function Nav() {
   const handleUploadImage = () => {
     const photos = fileRef.current.files
     if (photos.length === 0) return
+
+    for (let photo of photos) {
+      if (!photo.type.startsWith("image")) {
+        return alert("only image can be uploaded")
+      }
+    }
+
+    if (photos.length > 3) return alert("only 3 images can be uploaded")
 
     setUploadMessage(`Uploading ${photos.length} Photo`)
     uploadPhoto(photos, setUploadMessage)

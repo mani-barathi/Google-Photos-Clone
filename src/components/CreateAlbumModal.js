@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 
 import { Button, Typography } from "@material-ui/core"
 import TextField from "@material-ui/core/TextField"
@@ -11,17 +11,23 @@ import useFirestore from "../hooks/useFirestore"
 
 function CreateAlbumModal({ isCreateAlbumOpen, setIsCreateAlbumOpen }) {
   const { createAlbum } = useFirestore()
+  const [error, setError] = useState(false)
   const inputRef = useRef()
 
   const handleCreateAlbum = (e) => {
+    setError(false)
     e.preventDefault()
-    if (!inputRef.current.value) return
+    const newName = inputRef.current.value
+    if ((newName.length < 1) | (newName.length > 16)) return setError(true)
 
     createAlbum(inputRef.current.value)
     setIsCreateAlbumOpen(false)
   }
 
-  const handleClose = () => setIsCreateAlbumOpen(false)
+  const handleClose = () => {
+    setError(false)
+    setIsCreateAlbumOpen(false)
+  }
 
   return (
     <div>
@@ -35,17 +41,22 @@ function CreateAlbumModal({ isCreateAlbumOpen, setIsCreateAlbumOpen }) {
         <form onSubmit={handleCreateAlbum} autoComplete="off">
           <DialogContent>
             <Typography>Enter a name for your new Album</Typography>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Album Name"
-              type="text"
-              fullWidth
-              required
-              inputRef={inputRef}
-              max={16}
-            />
+
+            <div>
+              <TextField
+                error={error}
+                id="filled-error-helper-text"
+                autoFocus
+                margin="dense"
+                label="Album Name"
+                type="text"
+                fullWidth
+                required
+                inputRef={inputRef}
+                helperText="name should be between 1 and 16 characters"
+                variant="filled"
+              />
+            </div>
           </DialogContent>
 
           <DialogActions>
