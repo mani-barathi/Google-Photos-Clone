@@ -6,10 +6,16 @@ import {
   doc,
   addDoc,
   setDoc,
+  deleteDoc,
   where,
   orderBy,
 } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
@@ -38,12 +44,13 @@ function useFireStore() {
         null,
         (e) => {
           console.log("Error Uploading", e);
+          setUploadMessage("Error while Uploading Photo!");
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log("File available at", downloadURL);
             data.photoURL = downloadURL; // adding the recived Url
             setDoc(doc(db, "photos", photoId), data);
+            setUploadMessage("Photo Uploaded Succesfully!");
           });
         }
       );
@@ -51,12 +58,10 @@ function useFireStore() {
   };
 
   const deletePhoto = (id, fileName) => {
-    storage
-      .ref("photos")
-      .child(fileName)
-      .delete()
-      .then(() => db.collection("photos").doc(id).delete())
-      .catch((error) => alert(error.message));
+    const photoRef = ref(storage, `photos/${fileName}`);
+    deleteObject(photoRef)
+      .then(() => deleteDoc(doc(db, "photos", id)))
+      .catch((e) => alert(e.message));
   };
 
   // return a snapshot listener for getting photos in ROOT Album of the user
@@ -101,13 +106,12 @@ function useFireStore() {
 
   const deleteAlbum = (photos) => {
     for (let photo of photos) {
-      storage
-        .ref("photos")
-        .child(`${photo.id}_${photo.data.name}`)
-        .delete()
-        .then(() => db.collection("photos").doc(photo.id).delete());
+      const photoRef = ref(storage, `photos/${photo.id}_${photo.data.name}`);
+      deleteObject(photoRef)
+        .then(() => deleteDoc(doc(db, "photos", photo.id)))
+        .catch((e) => console.log(e.message));
     }
-    db.collection("albums").doc(currentAlbum.albumId).delete();
+    deleteDoc(doc(db, "albums", currentAlbum.albumId));
   };
 
   return {
