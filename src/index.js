@@ -1,9 +1,9 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import "./css/index.css"
-import App from "./App"
+import React from "react";
+import ReactDOM from "react-dom";
+import "./css/index.css";
+import App from "./App";
 
-import Provider from "./store"
+import Provider from "./store";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,4 +12,4 @@ ReactDOM.render(
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
-)
+);

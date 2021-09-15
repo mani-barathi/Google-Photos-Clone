@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { Button, CircularProgress } from "@material-ui/core"
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Button, CircularProgress } from "@material-ui/core";
 
-import { setUser } from "../actions"
-import { auth, provider } from "../firebase"
+import { setUser } from "../actions";
+import { auth, provider } from "../firebase";
 
 function Login() {
-  const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(true)
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -17,16 +17,16 @@ function Login() {
           displayName: user.displayName,
           photoURL: user.photoURL,
           email: user.email,
-        }
-        dispatch(setUser(loggedUser))
-      } else setIsLoading(false)
-    })
-    return unsubscribe
-  }, [dispatch])
+        };
+        dispatch(setUser(loggedUser));
+      } else setIsLoading(false);
+    });
+    return unsubscribe;
+  }, [dispatch]);
 
   const login = () => {
-    auth.signInWithPopup(provider).catch((err) => alert(err.message))
-  }
+    auth.signInWithPopup(provider).catch((err) => alert(err.message));
+  };
 
   return (
     <div style={styles}>
@@ -44,7 +44,7 @@ function Login() {
         </>
       )}
     </div>
-  )
+  );
 }
 
 const styles = {
@@ -52,6 +52,6 @@ const styles = {
   height: "100vh",
   display: "grid",
   placeItems: "center",
-}
+};
 
-export default Login
+export default Login;
