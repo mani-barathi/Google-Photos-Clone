@@ -3,10 +3,13 @@ import {
   serverTimestamp,
   collection,
   onSnapshot,
+  doc,
   addDoc,
+  setDoc,
   where,
   orderBy,
 } from "firebase/firestore";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
@@ -19,8 +22,6 @@ function useFireStore() {
   const uploadPhoto = (photos, setUploadMessage) => {
     for (let photo of photos) {
       const photoId = uuidv4();
-      console.log(photo);
-      console.log(photoId);
       const data = {
         name: photo.name,
         uid: uid,
@@ -29,27 +30,21 @@ function useFireStore() {
         createdAt: serverTimestamp(),
       };
 
-      const uploadTask = storage
-        .ref(`photos/${photoId}_${photo.name}`)
-        .put(photo);
+      const storageRef = ref(storage, `photos/${photoId}_${photo.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, photo);
+
       uploadTask.on(
-        "state_change",
+        "state_changed",
         null,
-        (error) => {
-          // error function
-          alert(error.message);
-          console.log(error.message);
+        (e) => {
+          console.log("Error Uploading", e);
         },
         () => {
-          storage
-            .ref("photos")
-            .child(`${photoId}_${photo.name}`)
-            .getDownloadURL()
-            .then((url) => {
-              data.photoURL = url; // adding the recived Url
-              db.collection("photos").doc(photoId).set(data);
-              setUploadMessage("Photo Uploded Succesfully!");
-            });
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            data.photoURL = downloadURL; // adding the recived Url
+            setDoc(doc(db, "photos", photoId), data);
+          });
         }
       );
     }
