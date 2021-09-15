@@ -14,6 +14,7 @@ import { useHistory } from "react-router-dom";
 import { setUser } from "../actions";
 import "../css/Nav.css";
 import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
 import useFirestore from "../hooks/useFirestore";
 
 function Nav() {
@@ -25,8 +26,7 @@ function Nav() {
   const user = useSelector((state) => state.user);
 
   const logout = () => {
-    auth
-      .signOut()
+    signOut(auth)
       .then(() => dispatch(setUser(null)))
       .catch((err) => console.log(err.message));
   };

@@ -4,13 +4,14 @@ import { Button, CircularProgress } from "@material-ui/core";
 
 import { setUser } from "../actions";
 import { auth, provider } from "../firebase";
+import { onAuthStateChanged, signInWithPopup } from "firebase/auth";
 
 function Login() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         const loggedUser = {
           uid: user.uid,
@@ -25,7 +26,7 @@ function Login() {
   }, [dispatch]);
 
   const login = () => {
-    auth.signInWithPopup(provider).catch((err) => alert(err.message));
+    signInWithPopup(auth, provider).catch((err) => alert(err.message));
   };
 
   return (
