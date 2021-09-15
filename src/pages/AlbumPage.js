@@ -27,7 +27,7 @@ function AlbumPage() {
   }, [history, currentAlbum.albumId]);
 
   useEffect(() => {
-    const unsubscribe = getAlbumPhotos().onSnapshot((snapshot) => {
+    const unsubscribe = getAlbumPhotos((snapshot) => {
       setPhotos(
         snapshot.docs.map((doc) => ({
           id: doc.id,

@@ -1,4 +1,12 @@
-import { serverTimestamp } from "firebase/firestore";
+import {
+  query,
+  serverTimestamp,
+  collection,
+  onSnapshot,
+  addDoc,
+  where,
+  orderBy,
+} from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
@@ -57,37 +65,43 @@ function useFireStore() {
   };
 
   // return a snapshot listener for getting photos in ROOT Album of the user
-  const getRootPhotos = () => {
-    return db
-      .collection("photos")
-      .where("uid", "==", uid)
-      .where("albumId", "==", "ROOT")
-      .orderBy("createdAt", "desc");
+  const getRootPhotos = (cb) => {
+    const q = query(
+      collection(db, "photos"),
+      where("uid", "==", uid),
+      where("albumId", "==", "ROOT"),
+      orderBy("createdAt", "desc")
+    );
+    return onSnapshot(q, cb);
   };
 
   // return a snapshot listener for getting albums of the user
-  const getAlbums = () => {
-    return db
-      .collection("albums")
-      .where("uid", "==", uid)
-      .orderBy("createdAt", "desc");
+  const getAlbums = (cb) => {
+    const q = query(
+      collection(db, "albums"),
+      where("uid", "==", uid),
+      orderBy("createdAt", "desc")
+    );
+    return onSnapshot(q, cb);
   };
 
   const createAlbum = (albumName) => {
-    const data = {
+    const newDoc = {
       name: albumName,
       uid: uid,
       createdAt: serverTimestamp(),
     };
-    db.collection("albums").add(data);
+    return addDoc(collection(db, "albums"), newDoc);
   };
 
   // return a snapshot listener for getting all Photos of the particular Album
-  const getAlbumPhotos = () => {
-    return db
-      .collection("photos")
-      .where("albumId", "==", currentAlbum.albumId)
-      .orderBy("createdAt", "desc");
+  const getAlbumPhotos = (cb) => {
+    const q = query(
+      collection(db, "photos"),
+      where("albumId", "==", currentAlbum.albumId),
+      orderBy("createdAt", "desc")
+    );
+    return onSnapshot(q, cb);
   };
 
   const deleteAlbum = (photos) => {

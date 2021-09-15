@@ -24,7 +24,7 @@ function HomePage() {
 
   // To get Photos
   useEffect(() => {
-    const unsubscribe = getRootPhotos().onSnapshot((snapshot) => {
+    const unsubscribe = getRootPhotos((snapshot) => {
       setPhotos(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -32,13 +32,12 @@ function HomePage() {
         }))
       );
     });
-
     return unsubscribe; // eslint-disable-next-line
   }, []);
 
   // To get Albums
   useEffect(() => {
-    const unsubscribe = getAlbums().onSnapshot((snapshot) => {
+    const unsubscribe = getAlbums((snapshot) => {
       setAlbums(
         snapshot.docs.map((doc) => ({
           id: doc.id,
