@@ -1,4 +1,4 @@
-import firebase from "firebase";
+import { serverTimestamp } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
@@ -18,7 +18,7 @@ function useFireStore() {
         uid: uid,
         albumId: currentAlbum.albumId,
         albumName: currentAlbum.albumName,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt: serverTimestamp(),
       };
 
       const uploadTask = storage
@@ -77,7 +77,7 @@ function useFireStore() {
     const data = {
       name: albumName,
       uid: uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: serverTimestamp(),
     };
     db.collection("albums").add(data);
   };
