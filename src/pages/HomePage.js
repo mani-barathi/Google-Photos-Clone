@@ -6,14 +6,16 @@ import CreateAlbumModal from "../components/CreateAlbumModal";
 
 import { Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { setCurrentAlbum } from "../actions";
 import useFireStore from "../hooks/useFirestore";
+import { getAlbums } from "../api/album";
 
 function HomePage() {
   const dispatch = useDispatch();
-  const { getAlbums, getRootPhotos } = useFireStore();
+  const { uid } = useSelector((state) => state.user);
+  const { getRootPhotos } = useFireStore();
   const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false);
   const [albums, setAlbums] = useState([]);
   const [photos, setPhotos] = useState([]);
@@ -44,7 +46,7 @@ function HomePage() {
           data: doc.data(),
         }))
       );
-    });
+    }, uid);
 
     return unsubscribe; // eslint-disable-next-line
   }, []);
