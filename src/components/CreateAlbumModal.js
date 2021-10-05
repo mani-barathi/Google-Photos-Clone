@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useSelector } from "react-redux";
 
 import { Button, Typography } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
@@ -6,11 +7,10 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-
-import useFirestore from "../hooks/useFirestore";
+import { createAlbum } from "../api/album";
 
 function CreateAlbumModal({ isCreateAlbumOpen, setIsCreateAlbumOpen }) {
-  const { createAlbum } = useFirestore();
+  const { uid } = useSelector((state) => state.user);
   const [error, setError] = useState(false);
   const inputRef = useRef();
 
@@ -20,7 +20,7 @@ function CreateAlbumModal({ isCreateAlbumOpen, setIsCreateAlbumOpen }) {
     const newName = inputRef.current.value;
     if ((newName.length < 1) | (newName.length > 16)) return setError(true);
 
-    createAlbum(inputRef.current.value);
+    createAlbum(inputRef.current.value, uid);
     setIsCreateAlbumOpen(false);
   };
 
