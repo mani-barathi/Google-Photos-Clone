@@ -9,13 +9,12 @@ import AddIcon from "@material-ui/icons/Add";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setCurrentAlbum } from "../actions";
-import useFireStore from "../hooks/useFirestore";
 import { getAlbums } from "../api/album";
+import { getRootPhotos } from "../api/photo";
 
 function HomePage() {
   const dispatch = useDispatch();
   const { uid } = useSelector((state) => state.user);
-  const { getRootPhotos } = useFireStore();
   const [isCreateAlbumOpen, setIsCreateAlbumOpen] = useState(false);
   const [albums, setAlbums] = useState([]);
   const [photos, setPhotos] = useState([]);
@@ -26,7 +25,7 @@ function HomePage() {
 
   // To get Photos
   useEffect(() => {
-    const unsubscribe = getRootPhotos((snapshot) => {
+    const unsubscribe = getRootPhotos(uid, (snapshot) => {
       setPhotos(
         snapshot.docs.map((doc) => ({
           id: doc.id,

@@ -1,4 +1,14 @@
-import { deleteDoc, serverTimestamp, doc, setDoc } from "firebase/firestore";
+import {
+  onSnapshot,
+  deleteDoc,
+  orderBy,
+  where,
+  query,
+  collection,
+  serverTimestamp,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import {
   deleteObject,
   ref,
@@ -39,6 +49,16 @@ export const uploadPhoto = (photos, currentAlbum, uid, setUploadMessage) => {
       }
     );
   }
+};
+
+export const getRootPhotos = (uid, cb) => {
+  const q = query(
+    collection(db, "photos"),
+    where("uid", "==", uid),
+    where("albumId", "==", "ROOT"),
+    orderBy("createdAt", "desc")
+  );
+  return onSnapshot(q, cb);
 };
 
 export const deletePhoto = (id, fileName) => {
