@@ -1,5 +1,10 @@
-import { serverTimestamp, doc, setDoc } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { deleteDoc, serverTimestamp, doc, setDoc } from "firebase/firestore";
+import {
+  deleteObject,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { db, storage } from "../firebase";
 
@@ -34,4 +39,11 @@ export const uploadPhoto = (photos, currentAlbum, uid, setUploadMessage) => {
       }
     );
   }
+};
+
+export const deletePhoto = (id, fileName) => {
+  const photoRef = ref(storage, `photos/${fileName}`);
+  deleteObject(photoRef)
+    .then(() => deleteDoc(doc(db, "photos", id)))
+    .catch((e) => alert(e.message));
 };

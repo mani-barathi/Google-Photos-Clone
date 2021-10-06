@@ -5,11 +5,9 @@ import { Tooltip } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import GetAppIcon from "@material-ui/icons/GetApp";
 
-import useFireStore from "../hooks/useFirestore";
+import { deletePhoto } from "../api/photo";
 
 function Photo({ id, data }) {
-  const { deletePhoto } = useFireStore();
-
   const handleDeletePhoto = () => {
     deletePhoto(id, `${id}_${data.name}`);
   };
