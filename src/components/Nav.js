@@ -15,15 +15,15 @@ import { setUser } from "../actions";
 import "../css/Nav.css";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import useFirestore from "../hooks/useFirestore";
+import { uploadPhoto } from "../api/photo";
 
 function Nav() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { uploadPhoto } = useFirestore();
   const fileRef = useRef();
   const [uploadMessage, setUploadMessage] = useState(null);
   const user = useSelector((state) => state.user);
+  const currentAlbum = useSelector((state) => state.currentAlbum);
 
   const logout = () => {
     signOut(auth)
@@ -48,7 +48,7 @@ function Nav() {
     if (photos.length > 3) return alert("only 3 images can be uploaded");
 
     setUploadMessage(`Uploading ${photos.length} Photo`);
-    uploadPhoto(photos, setUploadMessage);
+    uploadPhoto(photos, currentAlbum, user.uid, setUploadMessage);
   };
 
   const goToHomePage = () => history.push(`/`);
