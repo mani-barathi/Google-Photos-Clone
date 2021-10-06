@@ -13,12 +13,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import useFireStore from "../hooks/useFirestore";
+import { getAlbumPhotos } from "../api/photo";
 import { deleteAlbum } from "../api/album";
 
 function AlbumPage() {
   const history = useHistory();
-  const { getAlbumPhotos } = useFireStore();
   const currentAlbum = useSelector((state) => state.currentAlbum);
   const [photos, setPhotos] = useState([]);
   const [open, setOpen] = React.useState(false);
@@ -28,7 +27,7 @@ function AlbumPage() {
   }, [history, currentAlbum.albumId]);
 
   useEffect(() => {
-    const unsubscribe = getAlbumPhotos((snapshot) => {
+    const unsubscribe = getAlbumPhotos(currentAlbum.albumId, (snapshot) => {
       setPhotos(
         snapshot.docs.map((doc) => ({
           id: doc.id,
@@ -38,8 +37,7 @@ function AlbumPage() {
     });
 
     return unsubscribe;
-    // eslint-disable-next-line
-  }, []);
+  }, [currentAlbum.albumId]);
 
   const openDeleteModal = () => setOpen(true);
   const closeDeleteModal = () => setOpen(false);

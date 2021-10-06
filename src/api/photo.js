@@ -61,6 +61,15 @@ export const getRootPhotos = (uid, cb) => {
   return onSnapshot(q, cb);
 };
 
+export const getAlbumPhotos = (currentAlbumId, cb) => {
+  const q = query(
+    collection(db, "photos"),
+    where("albumId", "==", currentAlbumId),
+    orderBy("createdAt", "desc")
+  );
+  return onSnapshot(q, cb);
+};
+
 export const deletePhoto = (id, fileName) => {
   const photoRef = ref(storage, `photos/${fileName}`);
   deleteObject(photoRef)
