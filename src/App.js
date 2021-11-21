@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./css/App.css";
 import Nav from "./components/Nav.js";
 import Login from "./components/Login.js";
@@ -15,16 +15,10 @@ function App() {
         {user ? (
           <>
             <Nav />
-
-            <Switch>
-              <Route path="/" exact>
-                <HomePage />
-              </Route>
-
-              <Route path="/album/:albumName">
-                <AlbumPage />
-              </Route>
-            </Switch>
+            <Routes>
+              <Route exact path="/" element={<HomePage />} />
+              <Route exact path="/album/:albumName" element={<AlbumPage />} />
+            </Routes>
           </>
         ) : (
           <Login />

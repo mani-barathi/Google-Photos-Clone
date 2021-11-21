@@ -3,7 +3,7 @@ import "../css/HomePage.css";
 import Photo from "../components/Photo";
 
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { Typography, IconButton, Button } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -17,14 +17,14 @@ import { getAlbumPhotos } from "../api/photo";
 import { deleteAlbum } from "../api/album";
 
 function AlbumPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const currentAlbum = useSelector((state) => state.currentAlbum);
   const [photos, setPhotos] = useState([]);
   const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
-    if (currentAlbum.albumId === "ROOT") history.replace(`/`);
-  }, [history, currentAlbum.albumId]);
+    if (currentAlbum.albumId === "ROOT") navigate(`/`, { replace: true });
+  }, [navigate, currentAlbum.albumId]);
 
   useEffect(() => {
     const unsubscribe = getAlbumPhotos(currentAlbum.albumId, (snapshot) => {
@@ -45,7 +45,7 @@ function AlbumPage() {
   const handleDeleteAlbum = () => {
     deleteAlbum(photos, currentAlbum.albumId);
     closeDeleteModal();
-    history.replace(`/`);
+    navigate(`/`, { replace: true });
   };
 
   return (

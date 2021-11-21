@@ -10,7 +10,7 @@ import PublishIcon from "@material-ui/icons/Publish";
 import SearchIcon from "@material-ui/icons/Search";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setUser } from "../actions";
 import "../css/Nav.css";
 import { auth } from "../firebase";
@@ -19,7 +19,7 @@ import { uploadPhoto } from "../api/photo";
 
 function Nav() {
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const fileRef = useRef();
   const [uploadMessage, setUploadMessage] = useState(null);
   const user = useSelector((state) => state.user);
@@ -51,7 +51,7 @@ function Nav() {
     uploadPhoto(photos, currentAlbum, user.uid, setUploadMessage);
   };
 
-  const goToHomePage = () => history.push(`/`);
+  const goToHomePage = () => navigate(`/`);
 
   return (
     <div className="nav">
